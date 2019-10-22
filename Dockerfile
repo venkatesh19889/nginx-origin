@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
+LABEL maintainer="Pushpender singh "
 
 ENV NGINX_VERSION 1.16.1
 ENV NJS_VERSION   0.3.5
