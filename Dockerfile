@@ -1,8 +1,8 @@
 FROM alpine:3.10
 
-LABEL maintainer="Douglas Quintiliano dos Santos <douglas.q.santos@gmail.com>"
+LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
-ENV NGINX_VERSION 1.17.4
+ENV NGINX_VERSION 1.16.1
 ENV NJS_VERSION   0.3.5
 ENV PKG_RELEASE   1
 
@@ -34,7 +34,7 @@ RUN set -x \
                 exit 1; \
             fi \
             && printf "%s%s%s\n" \
-                "https://nginx.org/packages/mainline/alpine/v" \
+                "https://nginx.org/packages/alpine/v" \
                 `egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release` \
                 "/main" \
             | tee -a /etc/apk/repositories \
@@ -68,7 +68,7 @@ RUN set -x \
                 && cd ${tempDir} \
                 && hg clone https://hg.nginx.org/pkg-oss \
                 && cd pkg-oss \
-                && hg up ${NGINX_VERSION}-${PKG_RELEASE} \
+                && hg up -r 429 \
                 && cd alpine \
                 && make all \
                 && apk index -o ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz ${tempDir}/packages/alpine/${apkArch}/*.apk \
@@ -105,13 +105,11 @@ RUN set -x \
     && mv /tmp/envsubst /usr/local/bin/ \
 # Bring in tzdata so users could set the timezones through the environment
 # variables
-    && apk add --no-cache tzdata 
+    && apk add --no-cache tzdata \
 # forward request and error logs to docker log collector
-#    && ln -sf /dev/stdout /var/log/nginx/access.log \
-#    && ln -sf /dev/stderr /var/log/nginx/error.log
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
-# saving the logs inside the container to control it externally
-VOLUME /var/log/nginx
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
