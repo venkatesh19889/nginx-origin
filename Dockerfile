@@ -109,7 +109,7 @@ RUN set -x \
 # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
-RUN echo "testing is completed but not taking latest" > /usr/share/nginx/html/test.html
+RUN echo "testing is completed but not taking latest one" > /usr/share/nginx/html/test.html
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
