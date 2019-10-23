@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-LABEL maintainer="Pushpendersingh "
+LABEL maintainer="softobiz "
 
 ENV NGINX_VERSION 1.16.1
 ENV NJS_VERSION   0.3.5
